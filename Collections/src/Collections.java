@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Collections {
@@ -50,9 +51,9 @@ public class Collections {
 		
 		// Override hash code and equals
 		System.out.println("\n"+"Override hash code and equals!");
-		Person p = new Person("Email@mas.com");
-		Person q = new Person("Other@mas.com");
-		Person b = new Person("Email@mas.com");
+		Person p = new Person("Email@mas.com","A");
+		Person q = new Person("Other@mas.com","S");
+		Person b = new Person("Email@mas.com","A");
 		
 		// Comparing different emails
 		System.out.println(p == q);
@@ -94,7 +95,70 @@ public class Collections {
 		peeps.put("Email@mas.com",p);
 		System.out.println("\n"+"Dictionary of custom objects \nkey is email!:");
 		System.out.println(peeps.containsKey("Email@mas.com"));
+		
+		// Generic functions
+		System.out.println("\n"+"Generic Functions:");
+		//Item<String> item = new Item<String>();
+		Pair<Person, Person> item = new Pair<Person, Person>();
+		Person pp = new Person("hello","hello");
+		item.setX(pp);
+		item.getX();
+		item.setY(p);
+		item.getX();		
+		Person p3 = item.getX();
+		
+		Pair<Integer,String> pair = new Pair<Integer,String>();
+		pair.setX(7);
+		pair.setY("My fav number!");
+		
+		Pair<Integer,String> pair2 = new Pair<Integer,String>();
+		pair2.setX(70);
+		pair2.setY("My fav number x 10!");
+		
+		ArrayList<Pair<Integer,String>> pears = new ArrayList<Pair<Integer,String>>();
+		pears.add(pair);
+		pears.add(pair2);
+		
+		// derived class from the Person class
+		
+		ArrayList<Person> peopleCairo = new ArrayList<Person>();
+		Admin a = new Admin();
+		people.add(a);
+		//doSomething(a);
+		// Although there is inheritance from Person to Admin
+		// No inheritance for ListOf Persons to ListOf Admins
+		
+		ArrayList<Admin> admins = new ArrayList<Admin>();
+		
+		ArrayList<Person> adminsP = new ArrayList<Person>();
+		for(Admin admin : admins) {
+			adminsP.add((Person)admin);
+		}
+		doSomething(adminsP);
+
+		
+		//
+		System.out.println("\n"+"Generic Wildcards and Casting Lists:");
+		doSomething(admins);
+		
+		// Alternatively: Casting in one line
+		List<Person> people3 = (List<Person>)(List<?>)admins;
+		//doSomething(people3);
 	}
+	/*
+	static void doSomething(Person p) {
+		System.out.println(p);
+	}*/
+
+	/*static void doSomething(ArrayList<Person> peeps) {
+		
+	}*/
+	
+	// This means that any ArrayList of a type that extends Person is acceptable
+	static void doSomething(ArrayList<? extends Person> peeps) {
+	
+	}
+	
 
 }
 

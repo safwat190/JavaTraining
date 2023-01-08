@@ -1,7 +1,15 @@
 public class Person {
 	String email;
-	Person(String email){
+	String name;
+	
+	// Default constructor
+	Person(){
+	}
+
+	// Custom constructor
+	Person(String email, String name){
 		this.email = email;
+		this.name = name;
 	}
 	@Override
 	public int hashCode() {
