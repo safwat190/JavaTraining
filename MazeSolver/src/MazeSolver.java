@@ -1,5 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class MazeSolver {
 		
@@ -7,34 +11,10 @@ public class MazeSolver {
 	//1 = path
 	//2 = destination
 		
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		
-		ArrayList<Maze> mazes = new ArrayList<Maze>();
-
-		Maze m = new Maze();
-		
-		int[][] maze = {
-			{1,0,0,1},
-			{1,0,1,1},
-			{0,1,1,2}
-		};
-		m.maze = maze;
-		m.start = new position(0,3);
-		m.path = new LinkedList<position>();
-
-		Maze n = new Maze();
-		
-		int[][] n_maze = {
-			{1,0,0,1},
-			{1,0,1,1},
-			{0,1,1,2}
-		};
-		n.maze = n_maze;
-		n.start = new position(0,3);
-		n.path = new LinkedList<position>();
-
-		mazes.add(m);
-		mazes.add(n);
+		ArrayList<Maze> mazes = readMazes();
+				
 		
 		int i = 0;
 		while(i<mazes.size()) {
@@ -49,6 +29,38 @@ public class MazeSolver {
 				
 	}
 	
+	private static ArrayList<Maze> readMazes() throws FileNotFoundException {
+		ArrayList<Maze> mazes = new ArrayList<Maze>();
+
+		//fill list from file
+		Scanner in = new Scanner(new File("mazes.txt"));
+		while(in.hasNext()) {			
+			Maze m = new Maze();
+			// number of rows is stored in the first line in the file
+			int rows = Integer.parseInt(in.nextLine());
+			m.maze = new int[rows][];
+			
+			//String items[] = in.nextLine().split(",");
+			
+			// Iterate and for each one, get a new line and split it
+			for(int i = 0;i<rows;i++) {
+				String line = in.nextLine();
+				m.maze[i] = Arrays.stream(line.split(",")).mapToInt(Integer::parseInt).toArray();
+			}
+			
+			m.start = new position(Integer.parseInt(in.nextLine()),Integer.parseInt(in.nextLine()));
+			
+			in.nextLine(); //toss the extra space
+			mazes.add(m);
+
+		}
+		in.close();
+		
+		
+		return mazes;
+		
+	}
+
 	private static boolean solveMaze(Maze m) {
 		// TODO Auto-generated method stub
 		position p = m.start;
